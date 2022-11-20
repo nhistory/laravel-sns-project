@@ -12,8 +12,14 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    function posts(){
+    function posts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Post::class);
+    }
+
+    function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
     }
 
     /**
