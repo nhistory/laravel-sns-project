@@ -42,9 +42,13 @@
                                 <label class="form-label">Roles</label>
                                 @foreach($roles as $role)
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="roles[]" value="{{$role->id}}" id="">
+                                    @if(old('$roles'))
+                                        <input {{ is_array(old('roles')) && in_array($role->id, old('roles')) ? 'checked' : '' }} class="form-check-input" type="checkbox" name="roles[]" value="{{$role->id}}" id="">
+                                    @else
+                                        <input {{ $user->roles->contains($role) ? 'checked' : '' }} class="form-check-input" type="checkbox" name="roles[]" value="{{$role->id}}" id="">
+                                    @endif
                                         <label class="form-check-label" for="flexCheckDefault">
-                                            {{ $role->name }}
+                                                {{ $role->name }}
                                         </label>
                                     </div>
                                 @endforeach

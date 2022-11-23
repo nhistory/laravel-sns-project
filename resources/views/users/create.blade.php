@@ -41,7 +41,7 @@
                                 <label class="form-label">Roles</label>
                                 @foreach($roles as $role)
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="roles[]" value="{{$role->id}}" id="">
+                                        <input {{ is_array(old('roles')) && in_array($role->id, old('roles')) ? 'checked' : '' }} class="form-check-input" type="checkbox" name="roles[]" value="{{$role->id}}" id="">
                                         <label class="form-check-label" for="flexCheckDefault">
                                             {{ $role->name }}
                                         </label>
