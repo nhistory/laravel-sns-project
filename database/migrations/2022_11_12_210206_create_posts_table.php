@@ -17,10 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('content');
+            $table->text('img_url');
             $table->foreignId('created_by');
             $table->foreignId('deleted_by')->nullable();
             $table->timestamps();
-            $table->timestamp('deleted_at')->nullable();
+            $table->softDeletes();
 
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('deleted_by')->references('id')->on('users');
