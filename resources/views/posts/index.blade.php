@@ -24,7 +24,7 @@
                                 <img src="{{ $post->img_url }}" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $post->title }}</h5>
-                                    <p class="card-text">{{ $post->content }}</p>
+                                    <p class="card-text">{{ $post->contents }}</p>
                                     <div>
                                         @if($login_user && $post->created_by == $login_user->id)
                                             <form style="float: right; padding-left: 10px" method="post" action="{{ route('posts.destroy', $post->id) }}">
@@ -34,6 +34,19 @@
                                             </form>
                                             <a style="float: right;" class="btn btn-warning" href="{{ route('posts.edit', $post->id) }}">Edit</a>
                                         @endif
+                                        @foreach($users as $user)
+                                            @if($login_user && $user->id == $login_user->id)
+                                                @foreach($user->roles as $role)
+                                                    @if($post->created_by != $login_user->id && $role->id == '2')
+                                                        <form style="float: right; padding-left: 10px" method="post" action="{{ route('posts.destroy', $post->id) }}">
+                                                            @method('DELETE')
+                                                            @csrf
+                                                            <button class="btn btn-danger" type="submit">Delete</button>
+                                                        </form>
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>

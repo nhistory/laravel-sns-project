@@ -18,10 +18,10 @@ class PostController extends Controller
     {
         $posts = Post::with('users')->orderByDesc('created_at')->get();
         $login_user = Auth::user();
-        //$users = User::with('roles')->get();
+        $users = User::with('roles')->get();
         //print_r($users[0]->roles);
         //dd($users[0]->roles);
-        return view('posts.index', compact(['posts','login_user']));
+        return view('posts.index', compact(['posts','login_user','users']));
     }
 
     /**
@@ -39,7 +39,7 @@ class PostController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function store(Request $request)
     {
@@ -78,11 +78,11 @@ class PostController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -90,11 +90,24 @@ class PostController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function update(Request $request, Post $post)
     {
-        //
+        //dd($request);
+
+        $request->validate([
+            'title' => 'required',
+            'contents' => 'required',
+        ]);
+
+        $post->title = $request->title;
+        $post->contents = $request->contents;
+        $post->img_url = $request->img_url;
+        //$post->created_by = $login_user->id;
+        $post->save();
+
+        return redirect(route('posts.index'))->with('status','Post updated');
     }
 
     /**
@@ -105,6 +118,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        $post->save();
+
+        return redirect(route('posts.index'))->with('status', 'Post Deleted');
     }
 }
