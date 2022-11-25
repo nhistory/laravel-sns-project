@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +18,22 @@ class CheckUserIsActive
      */
     public function handle(Request $request, Closure $next)
     {
-        dd(Auth::user());
+        $current_user = Auth::user();
+        $users = User::with('roles')->get();
 
-        return $next($request);
+        foreach ($users as $user)
+            if($current_user && $user->id == $current_user->id ){
+                foreach ($user->roles as $role)
+                    if ($role->id == '1'){
+                        return $next($request);
+                    } else {
+                        return redirect(route('posts'))->with('status', 'Access Denied: You do have permission to access User Management');
+                    }
+            } else {
+                return redirect(route('posts.index'))->with('status', 'Access Denied: You do have permission to access User Management');
+            }
+
+        //dd($users);
+
     }
 }
