@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -16,7 +17,11 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::with('users')->orderByDesc('created_at')->get();
-        return view('posts.index', compact('posts'));
+        $login_user = Auth::user();
+        //$users = User::with('roles')->get();
+        //print_r($users[0]->roles);
+        //dd($users[0]->roles);
+        return view('posts.index', compact(['posts','login_user']));
     }
 
     /**
@@ -38,7 +43,24 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $login_user = Auth::user();
+        //echo $login_user->id;
+
+        //dd($request);
+
+        $request->validate([
+           'title' => 'required',
+           'contents' => 'required',
+        ]);
+
+        $post = new Post;
+        $post->title = $request->title;
+        $post->contents = $request->contents;
+        $post->img_url = $request->img_url;
+        $post->created_by = $login_user->id;
+        $post->save();
+
+        return redirect(route('posts.index'))->with('status','Post added');
     }
 
     /**

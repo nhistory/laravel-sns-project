@@ -24,14 +24,14 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="content" class="form-label">Content</label>
-                                <input type="text" class="form-control" id="content" name="content" value="{{ old('content') }}" placeholder="Enter Your Content">
-                                @error('content')
+                                <label for="contents" class="form-label">Contents</label>
+                                <input type="text" class="form-control" id="contents" name="contents" value="{{ old('contents') }}" placeholder="Enter Your Content">
+                                @error('contents')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="img_url" class="form-label">Image URL</label>
+                                <label for="img_url" class="form-label">Image URL (Optional)</label>
                                 <input type="text" class="form-control" id="img_url" name="img_url" value="{{ old('img_url') }}" placeholder="Enter Your Image URL">
                                 @error('img_url')
                                 <div class="alert alert-danger">{{ $message }}</div>
