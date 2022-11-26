@@ -50,9 +50,20 @@
                             @endif
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a style="float: right;" id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
+                                    @foreach($users as $user)
+                                        @if(Auth::user() && $user->id == Auth::user()->id)
+                                            @foreach($user->roles as $role)
+                                                @if($role->id == '1')
+                                                    <a style="float: right;" id="navbarDropdown" class="nav-link" href="{{ route('users.index') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                                    Manage Users
+                                                    </a>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    @endforeach
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"

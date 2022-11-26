@@ -32,7 +32,8 @@ class PostController extends Controller
     public function create()
     {
         $posts = Post::all();
-        return view('posts.create', compact('posts'));
+        $users = User::with('roles')->get();
+        return view('posts.create', compact(['posts','users']));
     }
 
     /**
@@ -82,7 +83,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.edit', compact('post'));
+        $users = User::with('roles')->get();
+        return view('posts.edit', compact(['post','users']));
     }
 
     /**
