@@ -27,7 +27,7 @@ class CheckUserIsActive
                     if ($role->id == '1'){
                         return $next($request);
                     } else {
-                        return redirect(route('posts'))->with('status', 'Access Denied: You do have permission to access User Management');
+                        return redirect(route('posts.index'))->with('status', 'Access Denied: You do have permission to access User Management');
                     }
             } else {
                 return redirect(route('posts.index'))->with('status', 'Access Denied: You do have permission to access User Management');

@@ -28,7 +28,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return view('users.create', compact('roles'));
+        $users = User::with('roles')->get();
+        return view('users.create', compact(['roles','users']));
     }
 
     /**
@@ -83,7 +84,8 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('users.edit', compact(['user','roles']));
+        $users = User::with('roles')->get();
+        return view('users.edit', compact(['user','roles','users']));
     }
 
     /**
