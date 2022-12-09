@@ -23,6 +23,22 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class);
     }
 
+    function createdThemes(){
+        return $this->hasMany(Theme::class, 'created_by');
+    }
+
+    function updatedThemes(){
+        return $this->hasMany(Theme::class, 'updated_by');
+    }
+
+    function isThemeManager(){
+        foreach ($this->roles as $role){
+            if($role->id == 3){
+                return true;
+            }
+        }
+    }
+
     /**
      * The attributes that are mass assignable.
      *

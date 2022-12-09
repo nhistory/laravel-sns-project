@@ -15,6 +15,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    <link rel="stylesheet" href={{ $selectedTheme->cdn_url }} >
 </head>
 <body>
     <div id="app">
@@ -30,6 +31,20 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Themes
+                            </button>
+                            <ul class="dropdown-menu">
+                                @foreach($themes as $theme)
+                                    <li>
+                                        <a class="dropdown-item {{ $theme->id == $selectedTheme->id ? 'active' : '' }}" href={{ route('changetheme', $theme->id) }}>
+                                            {{ $theme->name }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
 
                     </ul>
 
@@ -59,6 +74,11 @@
                                                 @if($role->id == '1')
                                                     <a style="float: right;" id="navbarDropdown" class="nav-link" href="{{ route('users.index') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
                                                     Manage Users
+                                                    </a>
+                                                @endif
+                                                @if($role->id == '3')
+                                                    <a style="float: right;" id="navbarDropdown" class="nav-link" href="{{ route('themes.index') }}" role="button" aria-haspopup="true" aria-expanded="false" v-pre>
+                                                    Theme Manager
                                                     </a>
                                                 @endif
                                             @endforeach

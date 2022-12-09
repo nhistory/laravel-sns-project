@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -28,3 +29,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('users', UserController::class)->middleware('check.user.active');
 Route::resource('posts', PostController::class);
+Route::resource('admin/themes', ThemeController::class);
+
+Route::get('/changetheme/{id}', function($id){
+    //set cookie with theme id
+    //redirect back to the previous page
+
+    return redirect()->back()->withCookie(cookie('theme', $id, 525600));
+})->name('changetheme');
